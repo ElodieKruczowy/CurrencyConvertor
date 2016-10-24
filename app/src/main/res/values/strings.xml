@@ -2,5 +2,12 @@
     <string name="app_name">Currency Convertor</string>
     <string name="button_convert">Convert!</string>
     <string name="conversion_result">0.00€</string>
-    <string name="conversion_input"></string>
+    <string name="conversion_source">Source currency</string>
+    <string name="conversion_destination">Destination currency</string>
+    <string-array name="currencies_list">
+        <item>Euro</item>
+        <item>Dollar</item>
+        <item>Peso</item>
+        <item>Yen</item>
+    </string-array>
 </resources>

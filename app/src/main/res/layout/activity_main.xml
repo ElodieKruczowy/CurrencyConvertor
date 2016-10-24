@@ -10,33 +10,69 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.elodiekruczowy.github.currencyconvertor.MainActivity">
 
-    <TextView
-        android:text="@string/conversion_result"
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/textfield_convIn"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="209dp"
-        android:id="@+id/textfield_convRes" />
+        android:layout_marginTop="52dp" />
+
+    <TextView
+        android:text="@string/conversion_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textfield_sourceCurrency"
+        android:layout_below="@+id/textfield_convIn"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_sourceCurrency"
+        android:layout_below="@+id/textfield_sourceCurrency"
+        android:layout_alignParentStart="true"
+        android:entries="@array/currencies_list" />
+
+    <TextView
+        android:text="@string/conversion_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textfield_destCurrency"
+        android:layout_below="@+id/textfield_sourceCurrency"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="59dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_destCurrency"
+        android:layout_below="@+id/textfield_destCurrency"
+        android:layout_alignParentStart="true"
+        android:entries="@array/currencies_list" />
 
     <Button
         android:text="@string/button_convert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textfield_convRes"
+        android:id="@+id/button_convert"
+        android:layout_below="@+id/spinner_destCurrency"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp"
-        android:id="@+id/button_convert" />
+        android:layout_marginTop="31dp"
+        android:textSize="24sp" />
 
-    <EditText
-        android:text="@string/conversion_input"
+    <TextView
+        android:text="@string/conversion_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_above="@+id/button_convert"
+        android:id="@+id/textfield_convRes"
+        android:layout_below="@+id/button_convert"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="22dp"
-        android:id="@+id/textfield_convIn" />
+        android:layout_marginTop="21dp"
+        android:textSize="36sp" />
+
 
 </RelativeLayout>
