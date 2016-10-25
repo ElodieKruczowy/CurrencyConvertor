@@ -1,7 +1,6 @@
 package com.elodiekruczowy.github.currencyconvertor;
 
 import android.os.AsyncTask;
-import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,13 +18,14 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
 
 import static java.lang.Float.parseFloat;
 import static java.util.Arrays.asList;
@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     TextView convert_in, convert_out;
     Button convert_but;
     Spinner source_spin, destination_spin;
-    // XML parsed document ontaining conversion rates
-    Document currency_rates_xml;
+    // Formatting conversion result (float)
+    DecimalFormatSymbols float_decimal_symbol;
+    DecimalFormat money_decimal_format;
     // Conversion rates
     HashMap<String, Float> conversion_rates;
     // Currency symbols
@@ -64,15 +65,13 @@ public class MainActivity extends AppCompatActivity {
         source_spin = (Spinner) findViewById(R.id.spinner_sourceCurrency);
         destination_spin = (Spinner) findViewById(R.id.spinner_destCurrency);
     // END Views intialization
+        // Formatting double fix
+        float_decimal_symbol = new DecimalFormatSymbols();
+        float_decimal_symbol.setDecimalSeparator('.');
+        money_decimal_format = new DecimalFormat ("###############0.00", float_decimal_symbol);
         // Conversion rates initialization
         // Rates are from foreign currency to euro
         getCurrencyRates("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
-        // Currency symbols initialization
-        currency_symbols = new HashMap<String, String>();
-        currency_symbols.put("EUR", "€");
-        currency_symbols.put("USD", "$");
-        currency_symbols.put("MXN", "$");
-        currency_symbols.put("JPY", "¥");
     }
 
     public void updateConversionValue() {
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         txtValue = convert_in.getText().toString();
         try {
             decValue = parseFloat(txtValue);
-            txtValue = (decValue * rate) + currency_symbol;
+            txtValue = money_decimal_format.format(decValue * rate) + currency_symbol;
         }
         catch(Exception e) {
             txtValue = "Wrong input! (NaN)";
@@ -107,16 +106,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void getCurrencyRates(String url) {
-        NodeList list;
         AsyncTask task = new getOnlineCurrencyRates();
         task.execute(url);
         try {
             task.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        // Currency symbols initialization
+        currency_symbols = new HashMap<>();
+        currency_symbols.put("EUR", "€");
+        currency_symbols.put("USD", "$");
+        currency_symbols.put("MXN", "$");
+        currency_symbols.put("JPY", "¥");
     }
 
     class getOnlineCurrencyRates extends AsyncTask {
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 d.getDocumentElement().normalize();
                 NodeList list = d.getElementsByTagName("Cube");
                 String currencies_arr[] = getResources().getStringArray(R.array.currencies_list);
-                HashMap<String, Float> hm = new HashMap<String, Float>();
+                HashMap<String, Float> hm = new HashMap<>();
                 for (int i = 0; i < list.getLength(); i++) {
                     Node temp_node = list.item(i);
                     if (temp_node.getNodeType() == Node.ELEMENT_NODE) {
