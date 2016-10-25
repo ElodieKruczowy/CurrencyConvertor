@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         convert_but.setOnClickListener(new convertButtonListener(this));
         // Text field for the user to write the value to convert
         convert_in = (TextView) findViewById(R.id.textfield_convIn);
+        convert_in.setOnEditorActionListener(new ConvertInputDoneKeyListener(this));
         // Text field for displaying the cinverted value
         convert_out = (TextView) findViewById(R.id.textfield_convRes);
         // Spinner to select currencies
