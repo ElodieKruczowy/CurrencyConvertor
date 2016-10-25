@@ -5,9 +5,9 @@
     <string name="conversion_source">Source currency</string>
     <string name="conversion_destination">Destination currency</string>
     <string-array name="currencies_list">
-        <item>Euro</item>
-        <item>Dollar</item>
-        <item>Peso</item>
-        <item>Yen</item>
+        <item>EUR</item>
+        <item>USD</item>
+        <item>MXN</item>
+        <item>JPY</item>
     </string-array>
 </resources>
